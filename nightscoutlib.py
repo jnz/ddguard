@@ -146,7 +146,7 @@ class nightscout_uploader(object):
       
       # Check for "lost sensor" condition
       # We don't upload any sensor data in this case
-      if (sgv == 0) and (trend == -3) and (date.strftime("%c").find("01:00:00 1970") != -1):
+      if (sgv == 0) and (trend == -3): # and (date.strftime("%c").find("01:00:00 1970") != -1):
          print("Sensor lost, not uploading SGV data")
          return False
       
@@ -159,14 +159,14 @@ class nightscout_uploader(object):
       payload = {
             "device":self.device+data["serial"],
             "type":"sgv",
-            "dateString":date.strftime("%c"),
+            "dateString":date.isoformat(),
             "date":int(date.strftime("%s"))*1000,
             "sgv":sgv,
             "direction":trend_str
          }
-      #print "url: " + url
-      #print "headers: "+json.dumps(self.headers)
-      #print "payload: "+json.dumps(payload)
+      #print("url: " + url)
+      #print("headers: "+json.dumps(self.headers))
+      #print("payload: "+json.dumps(payload))
       
       try:
          #print "Send API request"
